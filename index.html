@@ -720,7 +720,7 @@
           <div class="featured-badge">RECOMMENDED</div>
           <div class="yield-header">
             <div class="yield-title">Diversified Basket</div>
-            <div class="yield-apy">9.2% <span>APY</span></div>
+            <div class="yield-apy">8% <span>APY</span></div>
           </div>
           <div class="yield-desc">
             Spread across 50+ ZIP codes. Diversification reduces risk while maintaining yield.
@@ -738,7 +738,7 @@
           <div class="yield-detail">
             <div class="yield-detail-row">
               <span>Expected return</span>
-              <span class="green">+9.2%</span>
+              <span class="green">+8%</span>
             </div>
             <div class="yield-detail-row">
               <span>Worst case (2005-level)</span>
@@ -850,7 +850,7 @@
         </div>
         <div class="payout-row">
           <span>Expected return (6 mo)</span>
-          <span class="green" id="yield-return">+$460 (9.2%)</span>
+          <span class="green" id="yield-return">+$460 (8%)</span>
         </div>
         <div class="payout-row">
           <span>Worst case (2005-level)</span>
@@ -980,11 +980,11 @@
 
     function updateYieldPreview() {
       const amount = parseInt(document.getElementById('yield-amount').value) || 0;
-      const expectedReturn = amount * 0.092;
+      const expectedReturn = amount * 0.08;
       const worstCase = amount * -0.15;
 
       document.getElementById('yield-deposit').textContent = '$' + amount.toLocaleString();
-      document.getElementById('yield-return').textContent = '+$' + expectedReturn.toLocaleString() + ' (9.2%)';
+      document.getElementById('yield-return').textContent = '+$' + expectedReturn.toLocaleString() + ' (8%)';
       document.getElementById('yield-worst').textContent = '-$' + Math.abs(worstCase).toLocaleString() + ' (-15%)';
     }
 
