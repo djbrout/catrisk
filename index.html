@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CatRisk - Hurricane Protection</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * {
       margin: 0;
@@ -13,8 +15,8 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0f;
-      color: #fff;
+      background: #ffffff;
+      color: #1a1a1a;
       min-height: 100vh;
     }
 
@@ -24,7 +26,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      border-bottom: 1px solid #222;
+      border-bottom: 1px solid #e5e5e5;
+      background: #fff;
     }
 
     .logo {
@@ -42,28 +45,28 @@
     }
 
     .nav-links a {
-      color: #888;
+      color: #666;
       text-decoration: none;
       font-size: 0.9rem;
     }
 
-    .nav-links a:hover, .nav-links a.active {
-      color: #fff;
+    .nav-links a:hover {
+      color: #1a1a1a;
     }
 
     .connect-btn {
-      background: #f97316;
-      color: #000;
+      background: #1a1a1a;
+      color: #fff;
       border: none;
       padding: 0.6rem 1.2rem;
       border-radius: 8px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
     }
 
     /* Main Container */
     .container {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 2rem;
     }
@@ -71,137 +74,136 @@
     /* Hero Section */
     .hero {
       text-align: center;
-      padding: 3rem 0;
+      padding: 2rem 0;
     }
 
     .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
     }
 
     .hero p {
-      color: #888;
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Address Input */
-    .address-section {
-      max-width: 600px;
-      margin: 2rem auto;
-    }
-
-    .address-input-wrapper {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .address-input {
-      flex: 1;
-      background: #1a1a24;
-      border: 1px solid #333;
-      padding: 1rem 1.2rem;
-      border-radius: 12px;
-      color: #fff;
+      color: #666;
       font-size: 1rem;
     }
 
-    .address-input:focus {
+    /* Search Section */
+    .search-section {
+      max-width: 500px;
+      margin: 1.5rem auto;
+    }
+
+    .search-wrapper {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .search-input {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .search-input:focus {
       outline: none;
       border-color: #f97316;
     }
 
     .search-btn {
       background: #f97316;
-      color: #000;
+      color: #fff;
       border: none;
-      padding: 1rem 2rem;
-      border-radius: 12px;
-      font-weight: 600;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
       cursor: pointer;
-      font-size: 1rem;
     }
 
-    /* Location Display */
-    .location-display {
-      background: linear-gradient(135deg, #1a1a24 0%, #0f0f15 100%);
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 1.5rem;
+    .search-btn:hover {
+      background: #ea580c;
+    }
+
+    /* Map Section */
+    .map-section {
       margin: 2rem 0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .location-icon {
-      width: 48px;
-      height: 48px;
-      background: #f97316;
       border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+    }
+
+    #map {
+      height: 300px;
+      width: 100%;
+    }
+
+    .map-info {
+      background: #f9f9f9;
+      padding: 1rem;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
     }
 
-    .location-info h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .location-info p {
-      color: #888;
-      font-size: 0.9rem;
-    }
-
-    .location-tag {
-      margin-left: auto;
-      background: rgba(249, 115, 22, 0.15);
-      color: #f97316;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
+    .map-location {
       font-weight: 500;
     }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .tab {
-      background: transparent;
-      border: 1px solid #333;
-      color: #888;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      cursor: pointer;
+    .map-location span {
+      color: #666;
+      font-weight: 400;
       font-size: 0.9rem;
     }
 
-    .tab.active {
-      background: #f97316;
-      border-color: #f97316;
-      color: #000;
-      font-weight: 600;
+    .map-radius {
+      color: #f97316;
+      font-weight: 500;
     }
 
-    /* Markets Grid */
-    .markets-grid {
-      display: grid;
-      gap: 1rem;
+    /* Coverage Status */
+    .coverage-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .coverage-status.covered {
+      background: #f0fdf4;
+      color: #166534;
+    }
+
+    .coverage-status.not-covered {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .status-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Markets Section */
+    .markets-section {
+      margin-top: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
 
     .market-card {
-      background: #1a1a24;
-      border: 1px solid #333;
-      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
       padding: 1.5rem;
-      transition: border-color 0.2s;
+      margin-bottom: 1rem;
     }
 
     .market-card:hover {
@@ -211,449 +213,99 @@
     .market-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       margin-bottom: 1rem;
     }
 
     .market-title {
       font-size: 1.1rem;
       font-weight: 600;
-      margin-bottom: 0.25rem;
     }
 
-    .market-subtitle {
-      color: #888;
-      font-size: 0.85rem;
-    }
-
-    .market-badge {
-      background: rgba(34, 197, 94, 0.15);
-      color: #22c55e;
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
-
-    .market-badge.popular {
-      background: rgba(249, 115, 22, 0.15);
-      color: #f97316;
-    }
-
-    /* Probability Bar */
-    .prob-section {
-      margin: 1rem 0;
-    }
-
-    .prob-label {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.85rem;
-    }
-
-    .prob-label span:first-child {
-      color: #888;
-    }
-
-    .prob-label span:last-child {
+    .market-prob {
       color: #f97316;
       font-weight: 600;
     }
 
-    .prob-bar {
-      height: 8px;
-      background: #333;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .prob-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #f97316, #fb923c);
-      border-radius: 4px;
-    }
-
-    /* Payout Display */
-    .payout-section {
+    .market-details {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      margin: 1rem 0;
+      margin-bottom: 1rem;
     }
 
-    .payout-box {
-      background: #0f0f15;
-      border-radius: 12px;
+    .detail-box {
+      background: #f9f9f9;
       padding: 1rem;
+      border-radius: 8px;
       text-align: center;
     }
 
-    .payout-box.yes {
-      border: 1px solid rgba(34, 197, 94, 0.3);
-    }
-
-    .payout-box.no {
-      border: 1px solid rgba(59, 130, 246, 0.3);
-    }
-
-    .payout-label {
-      font-size: 0.75rem;
-      color: #888;
+    .detail-label {
+      font-size: 0.8rem;
+      color: #666;
       margin-bottom: 0.25rem;
     }
 
-    .payout-value {
+    .detail-value {
       font-size: 1.25rem;
-      font-weight: 700;
+      font-weight: 600;
     }
 
-    .payout-box.yes .payout-value {
-      color: #22c55e;
+    .detail-value.green {
+      color: #16a34a;
     }
 
-    .payout-box.no .payout-value {
-      color: #3b82f6;
+    .detail-value.blue {
+      color: #2563eb;
     }
 
-    .payout-subtext {
-      font-size: 0.7rem;
-      color: #666;
-      margin-top: 0.25rem;
+    .detail-sub {
+      font-size: 0.75rem;
+      color: #888;
     }
 
-    /* Action Buttons */
-    .action-buttons {
+    .market-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.75rem;
-      margin-top: 1rem;
     }
 
-    .action-btn {
-      padding: 0.8rem;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.9rem;
-      border: none;
-    }
-
-    .action-btn.yes {
-      background: #22c55e;
-      color: #000;
-    }
-
-    .action-btn.no {
-      background: #3b82f6;
-      color: #fff;
-    }
-
-    /* Stats Bar */
-    .stats-bar {
-      display: flex;
-      justify-content: space-between;
-      padding-top: 1rem;
-      border-top: 1px solid #333;
-      margin-top: 1rem;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-value {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .stat-label {
-      color: #666;
-      font-size: 0.7rem;
-      margin-top: 0.2rem;
-    }
-
-    /* Trade Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal {
-      background: #1a1a24;
-      border: 1px solid #333;
-      border-radius: 20px;
-      padding: 2rem;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: #666;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .modal-market {
-      background: #0f0f15;
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-market-title {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .modal-market-sub {
-      color: #888;
-      font-size: 0.85rem;
-    }
-
-    .input-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .input-label {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.85rem;
-    }
-
-    .input-label span:last-child {
-      color: #888;
-    }
-
-    .amount-input-wrapper {
-      position: relative;
-    }
-
-    .amount-input {
-      width: 100%;
-      background: #0f0f15;
-      border: 1px solid #333;
-      padding: 1rem;
-      padding-right: 80px;
-      border-radius: 12px;
-      color: #fff;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .amount-input:focus {
-      outline: none;
-      border-color: #f97316;
-    }
-
-    .currency-label {
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #888;
-      font-weight: 500;
-    }
-
-    .quick-amounts {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-    }
-
-    .quick-amount {
-      flex: 1;
-      background: #0f0f15;
-      border: 1px solid #333;
-      padding: 0.5rem;
+    .btn {
+      padding: 0.75rem;
       border-radius: 8px;
-      color: #888;
-      font-size: 0.8rem;
+      font-weight: 500;
       cursor: pointer;
-    }
-
-    .quick-amount:hover {
-      border-color: #f97316;
-      color: #fff;
-    }
-
-    .payout-preview {
-      background: rgba(34, 197, 94, 0.1);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .payout-preview-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-    }
-
-    .payout-preview-row:last-child {
-      margin-bottom: 0;
-      padding-top: 0.5rem;
-      border-top: 1px solid rgba(34, 197, 94, 0.2);
-    }
-
-    .payout-preview-label {
-      color: #888;
-      font-size: 0.85rem;
-    }
-
-    .payout-preview-value {
-      font-weight: 600;
-    }
-
-    .payout-preview-value.highlight {
-      color: #22c55e;
-      font-size: 1.1rem;
-    }
-
-    .confirm-btn {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
+      font-size: 0.9rem;
       border: none;
-      background: #22c55e;
-      color: #000;
     }
 
-    .confirm-btn:hover {
+    .btn-primary {
       background: #16a34a;
-    }
-
-    /* Yield Seeker View */
-    .yield-section {
-      margin-top: 3rem;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    .section-subtitle {
-      color: #888;
-      font-size: 0.9rem;
-    }
-
-    .yield-card {
-      background: linear-gradient(135deg, #1a1a24 0%, #0f0f15 100%);
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 1.5rem;
-    }
-
-    .yield-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .yield-apy {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #3b82f6;
-    }
-
-    .yield-apy span {
-      font-size: 1rem;
-      color: #888;
-      font-weight: 400;
-    }
-
-    .yield-description {
-      color: #888;
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-
-    .yield-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .yield-stat {
-      background: #0f0f15;
-      border-radius: 12px;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .yield-stat-value {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .yield-stat-label {
-      font-size: 0.75rem;
-      color: #666;
-    }
-
-    .yield-btn {
-      width: 100%;
-      padding: 1rem;
-      background: #3b82f6;
       color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
     }
 
     /* How it works */
-    .how-it-works {
+    .how-section {
       margin-top: 3rem;
       padding: 2rem;
-      background: #1a1a24;
-      border-radius: 16px;
+      background: #f9f9f9;
+      border-radius: 12px;
     }
 
     .steps {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
+      gap: 1.5rem;
       margin-top: 1.5rem;
     }
 
@@ -661,64 +313,152 @@
       text-align: center;
     }
 
-    .step-number {
-      width: 48px;
-      height: 48px;
+    .step-num {
+      width: 36px;
+      height: 36px;
       background: #f97316;
-      color: #000;
+      color: #fff;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 1.25rem;
-      margin: 0 auto 1rem;
+      font-weight: 600;
+      margin: 0 auto 0.75rem;
     }
 
     .step-title {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
     }
 
     .step-desc {
-      color: #888;
-      font-size: 0.85rem;
-      line-height: 1.4;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 4rem;
-      padding: 2rem;
-      border-top: 1px solid #222;
-      text-align: center;
       color: #666;
       font-size: 0.85rem;
     }
 
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .footer-links a {
+    /* Footer */
+    footer {
+      margin-top: 3rem;
+      padding: 2rem;
+      border-top: 1px solid #e5e5e5;
+      text-align: center;
       color: #888;
-      text-decoration: none;
+      font-size: 0.85rem;
     }
 
-    .footer-links a:hover {
-      color: #f97316;
-    }
-
-    /* Hide modal by default */
+    /* Modal */
     .modal-overlay {
       display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
     }
 
     .modal-overlay.show {
       display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .amount-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1.1rem;
+    }
+
+    .amount-input:focus {
+      outline: none;
+      border-color: #f97316;
+    }
+
+    .payout-preview {
+      background: #f0fdf4;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .payout-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .payout-row:last-child {
+      margin-bottom: 0;
+      padding-top: 0.5rem;
+      border-top: 1px solid #dcfce7;
+      font-weight: 600;
+    }
+
+    .payout-row .green {
+      color: #16a34a;
+    }
+
+    .confirm-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-links {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -727,9 +467,8 @@
   <nav>
     <div class="logo">Cat<span>Risk</span></div>
     <div class="nav-links">
-      <a href="#" class="active">Markets</a>
+      <a href="#">Markets</a>
       <a href="#">Earn Yield</a>
-      <a href="#">Portfolio</a>
       <a href="#">Docs</a>
     </div>
     <button class="connect-btn">Connect Wallet</button>
@@ -739,275 +478,114 @@
     <!-- Hero -->
     <div class="hero">
       <h1>Hurricane Protection for Your ZIP Code</h1>
-      <p>Get paid automatically if a hurricane hits your area. No claims. No adjusters. No delays.</p>
+      <p>Pay $1,000. Get $25,000 if a hurricane hits your area.</p>
     </div>
 
-    <!-- Address Input -->
-    <div class="address-section">
-      <div class="address-input-wrapper">
-        <input type="text" class="address-input" placeholder="Enter your address..." value="1234 Ocean Drive, Miami Beach, FL 33139">
-        <button class="search-btn">Find Markets</button>
+    <!-- Search -->
+    <div class="search-section">
+      <div class="search-wrapper">
+        <input type="text" class="search-input" id="address-input" placeholder="Enter your ZIP code or address" value="33139">
+        <button class="search-btn" onclick="searchLocation()">Search</button>
       </div>
     </div>
 
-    <!-- Location Display -->
-    <div class="location-display">
-      <div class="location-icon">📍</div>
-      <div class="location-info">
-        <h3>Miami Beach, FL 33139</h3>
-        <p>Coordinates: 25.7907°N, 80.1300°W</p>
+    <!-- Map -->
+    <div class="map-section">
+      <div id="map"></div>
+      <div class="map-info">
+        <div class="map-location" id="location-text">
+          Miami Beach, FL <span>ZIP 33139</span>
+        </div>
+        <div class="map-radius" id="radius-text">15 mile radius</div>
       </div>
-      <div class="location-tag">High Risk Zone</div>
     </div>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab active">Buy Protection</button>
-      <button class="tab">Earn Yield</button>
-      <button class="tab">All Markets</button>
+    <!-- Coverage Status -->
+    <div class="coverage-status covered" id="coverage-status">
+      <span class="status-icon">✓</span>
+      <span>Your address is within the coverage area</span>
     </div>
 
-    <!-- Markets Grid -->
-    <div class="markets-grid">
-      <!-- Market Card 1 - Popular -->
+    <!-- Markets -->
+    <div class="markets-section">
+      <div class="section-title">Available Protection</div>
+
+      <!-- Market 1 -->
       <div class="market-card">
         <div class="market-header">
-          <div>
-            <div class="market-title">Cat 3+ within 15 miles</div>
-            <div class="market-subtitle">ZIP 33139 • Hurricane Season 2026</div>
-          </div>
-          <div class="market-badge popular">POPULAR</div>
+          <div class="market-title">Cat 3+ Hurricane within 15 miles</div>
+          <div class="market-prob">4% probability</div>
         </div>
 
-        <div class="prob-section">
-          <div class="prob-label">
-            <span>Probability</span>
-            <span>4.0%</span>
+        <div class="market-details">
+          <div class="detail-box">
+            <div class="detail-label">If hurricane hits</div>
+            <div class="detail-value green">25x payout</div>
+            <div class="detail-sub">$1,000 → $25,000</div>
           </div>
-          <div class="prob-bar">
-            <div class="prob-fill" style="width: 4%"></div>
-          </div>
-        </div>
-
-        <div class="payout-section">
-          <div class="payout-box yes">
-            <div class="payout-label">If storm hits</div>
-            <div class="payout-value">25x</div>
-            <div class="payout-subtext">$1,000 → $25,000</div>
-          </div>
-          <div class="payout-box no">
-            <div class="payout-label">If no storm</div>
-            <div class="payout-value">8.3%</div>
-            <div class="payout-subtext">Annualized yield</div>
+          <div class="detail-box">
+            <div class="detail-label">If no hurricane</div>
+            <div class="detail-value blue">8.3% APY</div>
+            <div class="detail-sub">Earn yield</div>
           </div>
         </div>
 
-        <div class="action-buttons">
-          <button class="action-btn yes" onclick="showModal()">Buy Protection</button>
-          <button class="action-btn no">Earn Yield</button>
-        </div>
-
-        <div class="stats-bar">
-          <div class="stat">
-            <div class="stat-value">$847K</div>
-            <div class="stat-label">Volume</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">$124K</div>
-            <div class="stat-label">Liquidity</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">342</div>
-            <div class="stat-label">Positions</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">Dec 15</div>
-            <div class="stat-label">Resolution</div>
-          </div>
+        <div class="market-actions">
+          <button class="btn btn-primary" onclick="showModal()">Buy Protection</button>
+          <button class="btn btn-secondary">Earn Yield</button>
         </div>
       </div>
 
-      <!-- Market Card 2 - High Leverage -->
+      <!-- Market 2 -->
       <div class="market-card">
         <div class="market-header">
-          <div>
-            <div class="market-title">Cat 4+ within 10 miles</div>
-            <div class="market-subtitle">ZIP 33139 • Hurricane Season 2026</div>
-          </div>
-          <div class="market-badge">HIGH LEVERAGE</div>
+          <div class="market-title">Cat 4+ Hurricane within 10 miles</div>
+          <div class="market-prob">1.5% probability</div>
         </div>
 
-        <div class="prob-section">
-          <div class="prob-label">
-            <span>Probability</span>
-            <span>1.5%</span>
+        <div class="market-details">
+          <div class="detail-box">
+            <div class="detail-label">If hurricane hits</div>
+            <div class="detail-value green">66x payout</div>
+            <div class="detail-sub">$1,000 → $66,000</div>
           </div>
-          <div class="prob-bar">
-            <div class="prob-fill" style="width: 1.5%"></div>
-          </div>
-        </div>
-
-        <div class="payout-section">
-          <div class="payout-box yes">
-            <div class="payout-label">If storm hits</div>
-            <div class="payout-value">66x</div>
-            <div class="payout-subtext">$1,000 → $66,000</div>
-          </div>
-          <div class="payout-box no">
-            <div class="payout-label">If no storm</div>
-            <div class="payout-value">3.0%</div>
-            <div class="payout-subtext">Annualized yield</div>
+          <div class="detail-box">
+            <div class="detail-label">If no hurricane</div>
+            <div class="detail-value blue">3% APY</div>
+            <div class="detail-sub">Earn yield</div>
           </div>
         </div>
 
-        <div class="action-buttons">
-          <button class="action-btn yes">Buy Protection</button>
-          <button class="action-btn no">Earn Yield</button>
-        </div>
-
-        <div class="stats-bar">
-          <div class="stat">
-            <div class="stat-value">$234K</div>
-            <div class="stat-label">Volume</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">$45K</div>
-            <div class="stat-label">Liquidity</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">89</div>
-            <div class="stat-label">Positions</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">Dec 15</div>
-            <div class="stat-label">Resolution</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Market Card 3 - Broad Coverage -->
-      <div class="market-card">
-        <div class="market-header">
-          <div>
-            <div class="market-title">Cat 2+ within 25 miles</div>
-            <div class="market-subtitle">ZIP 33139 • Hurricane Season 2026</div>
-          </div>
-          <div class="market-badge">BROAD COVERAGE</div>
-        </div>
-
-        <div class="prob-section">
-          <div class="prob-label">
-            <span>Probability</span>
-            <span>8.0%</span>
-          </div>
-          <div class="prob-bar">
-            <div class="prob-fill" style="width: 8%"></div>
-          </div>
-        </div>
-
-        <div class="payout-section">
-          <div class="payout-box yes">
-            <div class="payout-label">If storm hits</div>
-            <div class="payout-value">12.5x</div>
-            <div class="payout-subtext">$1,000 → $12,500</div>
-          </div>
-          <div class="payout-box no">
-            <div class="payout-label">If no storm</div>
-            <div class="payout-value">17.4%</div>
-            <div class="payout-subtext">Annualized yield</div>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="action-btn yes">Buy Protection</button>
-          <button class="action-btn no">Earn Yield</button>
-        </div>
-
-        <div class="stats-bar">
-          <div class="stat">
-            <div class="stat-value">$1.2M</div>
-            <div class="stat-label">Volume</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">$287K</div>
-            <div class="stat-label">Liquidity</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">512</div>
-            <div class="stat-label">Positions</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">Dec 15</div>
-            <div class="stat-label">Resolution</div>
-          </div>
+        <div class="market-actions">
+          <button class="btn btn-primary" onclick="showModal()">Buy Protection</button>
+          <button class="btn btn-secondary">Earn Yield</button>
         </div>
       </div>
     </div>
 
-    <!-- Yield Section -->
-    <div class="yield-section">
-      <div class="section-header">
-        <div>
-          <div class="section-title">Earn Yield</div>
-          <div class="section-subtitle">Provide liquidity across multiple ZIP codes</div>
-        </div>
-      </div>
-
-      <div class="yield-card">
-        <div class="yield-header">
-          <div>
-            <div class="yield-apy">8-12% <span>APY</span></div>
-          </div>
-          <div class="market-badge">DIVERSIFIED</div>
-        </div>
-
-        <div class="yield-description">
-          Earn yield by taking the NO side across 50+ ZIP codes. Your risk is diversified - you only lose if multiple hurricanes hit multiple locations. Historical worst-case (2005): -15% drawdown.
-        </div>
-
-        <div class="yield-stats">
-          <div class="yield-stat">
-            <div class="yield-stat-value">$2.4M</div>
-            <div class="yield-stat-label">Total Deposits</div>
-          </div>
-          <div class="yield-stat">
-            <div class="yield-stat-value">54</div>
-            <div class="yield-stat-label">ZIP Codes</div>
-          </div>
-          <div class="yield-stat">
-            <div class="yield-stat-value">6 mo</div>
-            <div class="yield-stat-label">Season Length</div>
-          </div>
-        </div>
-
-        <button class="yield-btn">Deposit USDC to Earn</button>
-      </div>
-    </div>
-
-    <!-- How it Works -->
-    <div class="how-it-works">
+    <!-- How it works -->
+    <div class="how-section">
       <div class="section-title">How It Works</div>
-
       <div class="steps">
         <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-title">Enter Address</div>
-          <div class="step-desc">Find markets calibrated for your ZIP code's hurricane risk</div>
+          <div class="step-num">1</div>
+          <div class="step-title">Enter ZIP</div>
+          <div class="step-desc">Find markets for your location</div>
         </div>
         <div class="step">
-          <div class="step-number">2</div>
+          <div class="step-num">2</div>
           <div class="step-title">Buy Protection</div>
-          <div class="step-desc">Pay $1,000 for up to $25,000 payout if a hurricane hits</div>
+          <div class="step-desc">Pay premium in USDC</div>
         </div>
         <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-title">Wait for Season</div>
-          <div class="step-desc">Hurricane season runs June 1 - November 30</div>
+          <div class="step-num">3</div>
+          <div class="step-title">Wait</div>
+          <div class="step-desc">Hurricane season: Jun-Nov</div>
         </div>
         <div class="step">
-          <div class="step-number">4</div>
+          <div class="step-num">4</div>
           <div class="step-title">Get Paid</div>
-          <div class="step-desc">Automatic payout within 24 hours if trigger is met</div>
+          <div class="step-desc">Automatic payout if triggered</div>
         </div>
       </div>
     </div>
@@ -1015,65 +593,104 @@
 
   <!-- Footer -->
   <footer>
-    <div class="footer-links">
-      <a href="#">Docs</a>
-      <a href="#">GitHub</a>
-      <a href="#">Twitter</a>
-      <a href="#">Discord</a>
-    </div>
-    <p>CatRisk Protocol is experimental software. This is not insurance. Use at your own risk.</p>
+    This is not insurance. CatRisk is a prediction market protocol. Use at your own risk.
   </footer>
 
-  <!-- Trade Modal -->
+  <!-- Modal -->
   <div class="modal-overlay" id="modal">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-title">Buy Protection</div>
-        <button class="modal-close" onclick="hideModal()">&times;</button>
-      </div>
-
-      <div class="modal-market">
-        <div class="modal-market-title">Cat 3+ within 15 miles of ZIP 33139</div>
-        <div class="modal-market-sub">Hurricane Season 2026 • 4.0% probability</div>
+        <button class="modal-close" onclick="hideModal()">×</button>
       </div>
 
       <div class="input-group">
-        <div class="input-label">
-          <span>Amount</span>
-          <span>Balance: 10,000 USDC</span>
-        </div>
-        <div class="amount-input-wrapper">
-          <input type="text" class="amount-input" value="1,000" id="amount-input">
-          <span class="currency-label">USDC</span>
-        </div>
-        <div class="quick-amounts">
-          <button class="quick-amount">$500</button>
-          <button class="quick-amount">$1,000</button>
-          <button class="quick-amount">$2,500</button>
-          <button class="quick-amount">$5,000</button>
-        </div>
+        <label class="input-label">Amount (USDC)</label>
+        <input type="number" class="amount-input" id="amount" value="1000" onchange="updatePayout()">
       </div>
 
       <div class="payout-preview">
-        <div class="payout-preview-row">
-          <span class="payout-preview-label">You pay</span>
-          <span class="payout-preview-value">$1,000 USDC</span>
+        <div class="payout-row">
+          <span>You pay</span>
+          <span id="pay-amount">$1,000</span>
         </div>
-        <div class="payout-preview-row">
-          <span class="payout-preview-label">Fee (1%)</span>
-          <span class="payout-preview-value">$10 USDC</span>
+        <div class="payout-row">
+          <span>Fee (1%)</span>
+          <span id="fee-amount">$10</span>
         </div>
-        <div class="payout-preview-row">
-          <span class="payout-preview-label">If hurricane hits</span>
-          <span class="payout-preview-value highlight">$25,000 USDC</span>
+        <div class="payout-row">
+          <span>If hurricane hits</span>
+          <span class="green" id="payout-amount">$25,000</span>
         </div>
       </div>
 
-      <button class="confirm-btn">Confirm Purchase</button>
+      <button class="confirm-btn">Connect Wallet to Continue</button>
     </div>
   </div>
 
   <script>
+    // ZIP code data
+    const zipData = {
+      '33139': { name: 'Miami Beach, FL', lat: 25.7907, lng: -80.1300 },
+      '33101': { name: 'Miami, FL', lat: 25.7743, lng: -80.1937 },
+      '77058': { name: 'Houston, TX', lat: 29.5511, lng: -95.0970 },
+      '33040': { name: 'Key West, FL', lat: 24.5551, lng: -81.7800 },
+      '90210': { name: 'Beverly Hills, CA', lat: 34.0901, lng: -118.4065 },
+    };
+
+    // Default location
+    let currentLocation = zipData['33139'];
+    let map, marker, circle;
+
+    // Initialize map
+    function initMap() {
+      map = L.map('map').setView([currentLocation.lat, currentLocation.lng], 10);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Add marker for ZIP centroid
+      marker = L.marker([currentLocation.lat, currentLocation.lng]).addTo(map);
+
+      // Add radius circle (15 miles = ~24.14 km)
+      circle = L.circle([currentLocation.lat, currentLocation.lng], {
+        color: '#f97316',
+        fillColor: '#f97316',
+        fillOpacity: 0.1,
+        radius: 24140 // 15 miles in meters
+      }).addTo(map);
+    }
+
+    // Search location
+    function searchLocation() {
+      const input = document.getElementById('address-input').value.trim();
+
+      // Check if it's a known ZIP
+      if (zipData[input]) {
+        currentLocation = zipData[input];
+        updateMap();
+        document.getElementById('location-text').innerHTML =
+          `${currentLocation.name} <span>ZIP ${input}</span>`;
+        document.getElementById('coverage-status').className = 'coverage-status covered';
+        document.getElementById('coverage-status').innerHTML =
+          '<span class="status-icon">✓</span><span>Your address is within the coverage area</span>';
+      } else {
+        // For demo, show as not found but could integrate geocoding API
+        document.getElementById('coverage-status').className = 'coverage-status not-covered';
+        document.getElementById('coverage-status').innerHTML =
+          '<span class="status-icon">✗</span><span>ZIP code not found. Try: 33139, 33101, 77058</span>';
+      }
+    }
+
+    // Update map to new location
+    function updateMap() {
+      map.setView([currentLocation.lat, currentLocation.lng], 10);
+      marker.setLatLng([currentLocation.lat, currentLocation.lng]);
+      circle.setLatLng([currentLocation.lat, currentLocation.lng]);
+    }
+
+    // Modal functions
     function showModal() {
       document.getElementById('modal').classList.add('show');
     }
@@ -1082,12 +699,23 @@
       document.getElementById('modal').classList.remove('show');
     }
 
+    function updatePayout() {
+      const amount = parseInt(document.getElementById('amount').value) || 0;
+      const fee = amount * 0.01;
+      const payout = amount * 25;
+
+      document.getElementById('pay-amount').textContent = '$' + amount.toLocaleString();
+      document.getElementById('fee-amount').textContent = '$' + fee.toLocaleString();
+      document.getElementById('payout-amount').textContent = '$' + payout.toLocaleString();
+    }
+
     // Close modal on outside click
     document.getElementById('modal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        hideModal();
-      }
+      if (e.target === this) hideModal();
     });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', initMap);
   </script>
 </body>
 </html>
