@@ -867,17 +867,9 @@
   </div>
 
   <script>
-    // ZIP code data
-    const zipData = {
-      '33139': { name: 'Miami Beach, FL', lat: 25.7907, lng: -80.1300 },
-      '33101': { name: 'Miami, FL', lat: 25.7743, lng: -80.1937 },
-      '77058': { name: 'Houston, TX', lat: 29.5511, lng: -95.0970 },
-      '33040': { name: 'Key West, FL', lat: 24.5551, lng: -81.7800 },
-      '90210': { name: 'Beverly Hills, CA', lat: 34.0901, lng: -118.4065 },
-    };
-
     // Default location
-    let currentLocation = zipData['33139'];
+    let currentLocation = { name: 'Miami Beach, FL', lat: 25.7907, lng: -80.1300 };
+    let currentZip = '33139';
     let map, marker, circle;
 
     // Initialize map
@@ -900,24 +892,61 @@
       }).addTo(map);
     }
 
-    // Search location
-    function searchLocation() {
+    // Search location using Nominatim API
+    async function searchLocation() {
       const input = document.getElementById('address-input').value.trim();
 
-      // Check if it's a known ZIP
-      if (zipData[input]) {
-        currentLocation = zipData[input];
-        updateMap();
-        document.getElementById('location-text').innerHTML =
-          `${currentLocation.name} <span>ZIP ${input}</span>`;
-        document.getElementById('coverage-status').className = 'coverage-status covered';
-        document.getElementById('coverage-status').innerHTML =
-          '<span class="status-icon">✓</span><span>Your address is within the coverage area</span>';
-      } else {
-        // For demo, show as not found but could integrate geocoding API
+      if (!input) return;
+
+      // Show loading state
+      document.getElementById('coverage-status').className = 'coverage-status';
+      document.getElementById('coverage-status').innerHTML =
+        '<span>Searching...</span>';
+      document.getElementById('coverage-status').style.background = '#f3f4f6';
+      document.getElementById('coverage-status').style.color = '#666';
+
+      try {
+        // Use Nominatim to geocode the ZIP/address
+        const query = input.match(/^\d{5}$/) ? `${input}, USA` : input;
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=us&limit=1`,
+          { headers: { 'User-Agent': 'CatRisk Demo' } }
+        );
+
+        const data = await response.json();
+
+        if (data && data.length > 0) {
+          const result = data[0];
+          currentLocation = {
+            name: result.display_name.split(',').slice(0, 2).join(','),
+            lat: parseFloat(result.lat),
+            lng: parseFloat(result.lon)
+          };
+          currentZip = input.match(/^\d{5}$/) ? input : 'N/A';
+
+          updateMap();
+
+          document.getElementById('location-text').innerHTML =
+            `${currentLocation.name} <span>${currentZip !== 'N/A' ? 'ZIP ' + currentZip : ''}</span>`;
+          document.getElementById('coverage-status').className = 'coverage-status covered';
+          document.getElementById('coverage-status').innerHTML =
+            '<span class="status-icon">✓</span><span>Your address is within the coverage area</span>';
+          document.getElementById('coverage-status').style.background = '';
+          document.getElementById('coverage-status').style.color = '';
+        } else {
+          document.getElementById('coverage-status').className = 'coverage-status not-covered';
+          document.getElementById('coverage-status').innerHTML =
+            '<span class="status-icon">✗</span><span>Location not found. Try a US ZIP code or address.</span>';
+          document.getElementById('coverage-status').style.background = '';
+          document.getElementById('coverage-status').style.color = '';
+        }
+      } catch (error) {
+        console.error('Geocoding error:', error);
         document.getElementById('coverage-status').className = 'coverage-status not-covered';
         document.getElementById('coverage-status').innerHTML =
-          '<span class="status-icon">✗</span><span>ZIP code not found. Try: 33139, 33101, 77058</span>';
+          '<span class="status-icon">✗</span><span>Error searching. Please try again.</span>';
+        document.getElementById('coverage-status').style.background = '';
+        document.getElementById('coverage-status').style.color = '';
       }
     }
 
@@ -927,6 +956,13 @@
       marker.setLatLng([currentLocation.lat, currentLocation.lng]);
       circle.setLatLng([currentLocation.lat, currentLocation.lng]);
     }
+
+    // Allow Enter key to search
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('address-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') searchLocation();
+      });
+    });
 
     // Modal functions
     function showModal() {
