@@ -718,10 +718,10 @@
           <div class="choice-icon">📈</div>
           <div class="choice-title">I Want to Earn Yield</div>
           <div class="choice-desc">
-            Provide liquidity to protection buyers. Earn yield when hurricanes don't hit the covered areas.
+            A limited-loss put option on hurricane season. Earn theta decay with capped downside—a payoff you can't get in stock markets.
           </div>
           <div class="choice-highlight">
-            Earn 8% APY on your USDC
+            Earn weekly as the season passes quietly
           </div>
         </div>
       </div>
@@ -806,90 +806,146 @@
       <div class="back-btn" onclick="showLanding()">← Back to home</div>
 
       <div class="page-header">
-        <h1>Earn Yield</h1>
-        <p>Provide liquidity and earn when hurricanes don't hit</p>
+        <h1>Limited-Loss Put Option</h1>
+        <p>Earn theta decay with capped downside—a payoff you can't get in stock markets</p>
       </div>
 
-      <!-- How it works for yield -->
-      <div class="yield-steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-title">Deposit USDC</div>
-          <div class="step-desc">Choose single ZIP or diversified basket</div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-title">Earn Yield</div>
-          <div class="step-desc">8% APY from protection premiums</div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-title">Withdraw</div>
-          <div class="step-desc">After hurricane season ends</div>
+      <!-- Key Value Prop -->
+      <div style="background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid #dbeafe;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; text-align: center;">
+          <div>
+            <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.25rem;">Like selling puts</div>
+            <div style="font-size: 1.1rem; font-weight: 600; color: #2563eb;">Theta Decay</div>
+            <div style="font-size: 0.8rem; color: #888;">Earn as time passes</div>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.25rem;">Unlike selling puts</div>
+            <div style="font-size: 1.1rem; font-weight: 600; color: #16a34a;">Capped Loss</div>
+            <div style="font-size: 0.8rem; color: #888;">Max loss = your deposit</div>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; color: #666; margin-bottom: 0.25rem;">Bonus</div>
+            <div style="font-size: 1.1rem; font-weight: 600; color: #f97316;">Zero Correlation</div>
+            <div style="font-size: 0.8rem; color: #888;">To stock markets</div>
+          </div>
         </div>
       </div>
 
-      <p class="section-desc">Take the other side of protection buyers. Your deposit backs their coverage.</p>
+      <!-- Theta Decay Explanation -->
+      <div style="background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">How Theta Decay Works</h3>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+          Hurricane season runs June–November. Each quiet week, your position gains value as remaining risk decreases.
+        </p>
+        <div style="background: #f9f9f9; border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.85rem;">
+          <div style="display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 0.5rem; align-items: center;">
+            <div style="font-weight: 600;">Date</div>
+            <div style="font-weight: 600;">Risk Left</div>
+            <div style="font-weight: 600;">Profit</div>
+            <div style="font-weight: 600;">% Captured</div>
 
+            <div>June 1</div><div>4.0%</div><div style="color: #888;">0¢</div><div>0%</div>
+            <div>Sept 1</div><div>2.8%</div><div style="color: #16a34a;">+1.2¢</div><div>29%</div>
+            <div style="font-weight: 600; color: #2563eb;">Oct 15</div>
+            <div style="font-weight: 600; color: #2563eb;">1.0%</div>
+            <div style="font-weight: 600; color: #16a34a;">+3.0¢</div>
+            <div style="font-weight: 600; color: #2563eb;">75%</div>
+            <div>Nov 30</div><div>0%</div><div style="color: #16a34a;">+4.0¢</div><div>100%</div>
+          </div>
+        </div>
+        <p style="color: #2563eb; font-size: 0.9rem; margin-top: 1rem; font-weight: 500;">
+          By Oct 15: 75% of max profit captured with only 1% risk remaining. Exit anytime.
+        </p>
+      </div>
+
+      <!-- Comparison to Stock Options -->
+      <div style="background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Why This Doesn't Exist in Stock Markets</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; font-size: 0.85rem;">
+          <div style="background: #fef2f2; padding: 1rem; border-radius: 8px;">
+            <div style="font-weight: 600; color: #991b1b; margin-bottom: 0.5rem;">Naked Put</div>
+            <div style="color: #666;">Full premium</div>
+            <div style="color: #dc2626; font-weight: 500;">Unlimited loss ✗</div>
+          </div>
+          <div style="background: #fffbeb; padding: 1rem; border-radius: 8px;">
+            <div style="font-weight: 600; color: #92400e; margin-bottom: 0.5rem;">Put Spread</div>
+            <div style="color: #666;">Reduced premium</div>
+            <div style="color: #666;">Capped loss ✓</div>
+          </div>
+          <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px;">
+            <div style="font-weight: 600; color: #166534; margin-bottom: 0.5rem;">CatRisk</div>
+            <div style="color: #16a34a; font-weight: 500;">Full premium ✓</div>
+            <div style="color: #16a34a; font-weight: 500;">Capped loss ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strategies -->
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Trading Strategies</h3>
       <div class="yield-cards">
-        <!-- Single ZIP -->
+        <!-- Conservative -->
         <div class="yield-card">
           <div class="yield-header">
-            <div class="yield-title">Single ZIP</div>
-            <div class="yield-apy">8.3% <span>APY</span></div>
+            <div class="yield-title">Conservative</div>
+            <div class="yield-apy">4.8% <span>APY</span></div>
           </div>
           <div class="yield-desc">
-            Provide liquidity for one ZIP code. Higher risk, higher reward.
+            Enter June, exit Sept 1. Capture 29% of premium before peak hurricane season.
           </div>
           <div class="yield-stats">
             <div class="yield-stat">
-              <div class="yield-stat-value">4%</div>
-              <div class="yield-stat-label">Risk of loss</div>
+              <div class="yield-stat-value">3 mo</div>
+              <div class="yield-stat-label">Duration</div>
             </div>
             <div class="yield-stat">
-              <div class="yield-stat-value">1</div>
-              <div class="yield-stat-label">ZIP code</div>
+              <div class="yield-stat-value">Low</div>
+              <div class="yield-stat-label">Risk</div>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="showYieldModal('single')">Select ZIP</button>
+          <button class="btn btn-secondary" onclick="showYieldModal('conservative')">Select Strategy</button>
         </div>
 
-        <!-- Diversified Basket -->
+        <!-- Standard -->
         <div class="yield-card featured">
           <div class="featured-badge">RECOMMENDED</div>
           <div class="yield-header">
-            <div class="yield-title">Diversified Basket</div>
-            <div class="yield-apy">8% <span>APY</span></div>
+            <div class="yield-title">Standard Exit</div>
+            <div class="yield-apy">8.3% <span>APY</span></div>
           </div>
           <div class="yield-desc">
-            Spread across 50+ ZIP codes. Diversification reduces risk while maintaining yield.
+            Enter June, exit Oct 15. Capture 75% of premium with only 1% risk remaining.
           </div>
           <div class="yield-stats">
             <div class="yield-stat">
-              <div class="yield-stat-value">&lt;1%</div>
-              <div class="yield-stat-label">Risk of total loss</div>
+              <div class="yield-stat-value">4.5 mo</div>
+              <div class="yield-stat-label">Duration</div>
             </div>
             <div class="yield-stat">
-              <div class="yield-stat-value">50+</div>
-              <div class="yield-stat-label">ZIP codes</div>
+              <div class="yield-stat-value">Medium</div>
+              <div class="yield-stat-label">Risk</div>
             </div>
           </div>
           <div class="yield-detail">
             <div class="yield-detail-row">
-              <span>Expected return</span>
-              <span class="green">+8%</span>
+              <span>Entry (June 1)</span>
+              <span>96¢ per share</span>
             </div>
             <div class="yield-detail-row">
-              <span>Worst case (2005-level)</span>
-              <span class="red">-15%</span>
+              <span>Exit (Oct 15)</span>
+              <span>99¢ per share</span>
             </div>
             <div class="yield-detail-row">
-              <span>Historical avg loss</span>
-              <span>-3.2%</span>
+              <span>Profit</span>
+              <span class="green">+3¢ (3.1%)</span>
             </div>
           </div>
-          <button class="btn btn-secondary" onclick="showYieldModal('basket')">Deposit USDC</button>
+          <button class="btn btn-secondary" onclick="showYieldModal('standard')">Select Strategy</button>
         </div>
+      </div>
+
+      <!-- Diversification Note -->
+      <div style="background: #f9f9f9; border-radius: 8px; padding: 1rem; margin-top: 1.5rem; font-size: 0.85rem; color: #666;">
+        <strong>Geographic Diversification:</strong> Your position is spread across 50+ ZIP codes in 8 states (FL, TX, LA, NC, SC, GA, AL, MS). A single hurricane can only hit 1-2 states, limiting max loss to ~25% even in a 2005-level season.
       </div>
     </div>
   </div>
