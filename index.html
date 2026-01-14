@@ -336,6 +336,158 @@
       font-size: 0.85rem;
     }
 
+    /* Yield Section */
+    .yield-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .section-desc {
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    .yield-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .yield-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .yield-card.featured {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: #16a34a;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .yield-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .yield-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .yield-apy {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #16a34a;
+    }
+
+    .yield-apy span {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #666;
+    }
+
+    .yield-desc {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .yield-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .yield-stat-value {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .yield-stat-label {
+      font-size: 0.75rem;
+      color: #888;
+    }
+
+    .yield-detail {
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #dcfce7;
+    }
+
+    .yield-detail-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .yield-detail-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .green { color: #16a34a; }
+    .red { color: #dc2626; }
+
+    /* Basket Info */
+    .basket-info {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .basket-header {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .basket-desc {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.75rem;
+    }
+
+    .basket-zips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .zip-tag {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .yield-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Footer */
     footer {
       margin-top: 3rem;
@@ -563,8 +715,74 @@
       </div>
     </div>
 
+    <!-- Earn Yield Section -->
+    <div class="yield-section">
+      <div class="section-title">Earn Yield</div>
+      <p class="section-desc">Take the other side of protection buyers. Earn yield when hurricanes don't hit.</p>
+
+      <div class="yield-cards">
+        <!-- Single ZIP -->
+        <div class="yield-card">
+          <div class="yield-header">
+            <div class="yield-title">Single ZIP</div>
+            <div class="yield-apy">8.3% <span>APY</span></div>
+          </div>
+          <div class="yield-desc">
+            Provide liquidity for one ZIP code. Higher risk, higher reward.
+          </div>
+          <div class="yield-stats">
+            <div class="yield-stat">
+              <div class="yield-stat-value">4%</div>
+              <div class="yield-stat-label">Risk of loss</div>
+            </div>
+            <div class="yield-stat">
+              <div class="yield-stat-value">1</div>
+              <div class="yield-stat-label">ZIP code</div>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="showYieldModal('single')">Select ZIP</button>
+        </div>
+
+        <!-- Diversified Basket -->
+        <div class="yield-card featured">
+          <div class="featured-badge">RECOMMENDED</div>
+          <div class="yield-header">
+            <div class="yield-title">Diversified Basket</div>
+            <div class="yield-apy">9.2% <span>APY</span></div>
+          </div>
+          <div class="yield-desc">
+            Spread across 50+ ZIP codes. Diversification reduces risk while maintaining yield.
+          </div>
+          <div class="yield-stats">
+            <div class="yield-stat">
+              <div class="yield-stat-value">&lt;1%</div>
+              <div class="yield-stat-label">Risk of total loss</div>
+            </div>
+            <div class="yield-stat">
+              <div class="yield-stat-value">50+</div>
+              <div class="yield-stat-label">ZIP codes</div>
+            </div>
+          </div>
+          <div class="yield-detail">
+            <div class="yield-detail-row">
+              <span>Expected return</span>
+              <span class="green">+9.2%</span>
+            </div>
+            <div class="yield-detail-row">
+              <span>Worst case (2005-level)</span>
+              <span class="red">-15%</span>
+            </div>
+            <div class="yield-detail-row">
+              <span>Historical avg loss</span>
+              <span>-3.2%</span>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="showYieldModal('basket')">Deposit USDC</button>
+        </div>
+      </div>
+    </div>
+
     <!-- How it works -->
-    <div class="how-section">
       <div class="section-title">How It Works</div>
       <div class="steps">
         <div class="step">
@@ -625,6 +843,54 @@
       </div>
 
       <button class="confirm-btn">Connect Wallet to Continue</button>
+    </div>
+  </div>
+
+  <!-- Yield Modal -->
+  <div class="modal-overlay" id="yield-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="yield-modal-title">Deposit to Basket</div>
+        <button class="modal-close" onclick="hideYieldModal()">×</button>
+      </div>
+
+      <div class="basket-info" id="basket-info">
+        <div class="basket-header">Diversified Basket</div>
+        <div class="basket-desc">Your deposit is spread across 50+ coastal ZIP codes from Florida to Texas.</div>
+        <div class="basket-zips">
+          <span class="zip-tag">33139 Miami Beach</span>
+          <span class="zip-tag">33101 Miami</span>
+          <span class="zip-tag">33040 Key West</span>
+          <span class="zip-tag">77058 Houston</span>
+          <span class="zip-tag">+46 more</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Deposit Amount (USDC)</label>
+        <input type="number" class="amount-input" id="yield-amount" value="5000" onchange="updateYieldPreview()">
+      </div>
+
+      <div class="payout-preview" style="background: #eff6ff;">
+        <div class="payout-row">
+          <span>Your deposit</span>
+          <span id="yield-deposit">$5,000</span>
+        </div>
+        <div class="payout-row">
+          <span>Expected return (6 mo)</span>
+          <span class="green" id="yield-return">+$460 (9.2%)</span>
+        </div>
+        <div class="payout-row">
+          <span>Worst case (2005-level)</span>
+          <span class="red" id="yield-worst">-$750 (-15%)</span>
+        </div>
+        <div class="payout-row" style="border-top: 1px solid #dbeafe; padding-top: 0.5rem;">
+          <span>Unlock date</span>
+          <span>Dec 15, 2026</span>
+        </div>
+      </div>
+
+      <button class="confirm-btn" style="background: #2563eb;">Connect Wallet to Continue</button>
     </div>
   </div>
 
@@ -713,6 +979,42 @@
     document.getElementById('modal').addEventListener('click', function(e) {
       if (e.target === this) hideModal();
     });
+
+    document.getElementById('yield-modal').addEventListener('click', function(e) {
+      if (e.target === this) hideYieldModal();
+    });
+
+    // Yield Modal
+    function showYieldModal(type) {
+      const modal = document.getElementById('yield-modal');
+      const title = document.getElementById('yield-modal-title');
+      const basketInfo = document.getElementById('basket-info');
+
+      if (type === 'basket') {
+        title.textContent = 'Deposit to Diversified Basket';
+        basketInfo.style.display = 'block';
+      } else {
+        title.textContent = 'Deposit to Single ZIP';
+        basketInfo.style.display = 'none';
+      }
+
+      modal.classList.add('show');
+      updateYieldPreview();
+    }
+
+    function hideYieldModal() {
+      document.getElementById('yield-modal').classList.remove('show');
+    }
+
+    function updateYieldPreview() {
+      const amount = parseInt(document.getElementById('yield-amount').value) || 0;
+      const expectedReturn = amount * 0.092;
+      const worstCase = amount * -0.15;
+
+      document.getElementById('yield-deposit').textContent = '$' + amount.toLocaleString();
+      document.getElementById('yield-return').textContent = '+$' + expectedReturn.toLocaleString() + ' (9.2%)';
+      document.getElementById('yield-worst').textContent = '-$' + Math.abs(worstCase).toLocaleString() + ' (-15%)';
+    }
 
     // Initialize
     document.addEventListener('DOMContentLoaded', initMap);
